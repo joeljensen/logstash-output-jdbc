@@ -93,3 +93,28 @@ If you have vagrant available (this is temporary whilst I'm hacking on v5 suppor
   - `bundle exec rake pre_release_checks`
   - `gem build logstash-output-jdbc.gemspec`
   - `gem push`
+
+
+## Building on osx sequoia
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"\n
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+brew install logstash
+echo "export PATH=/opt/homebrew/Cellar/logstash/8.17.0/libexec/vendor/jruby/bin:$PATH" >> ~/.zshrc
+source ~/.zshrc
+mkdir ~/src
+cd ~/src
+git clone https://github.com/joeljensen/logstash-output-jdbc.git
+cd logstash-output-jdbc
+git checkout feature/log4j-CVE-2021-44228
+
+make your changes.
+
+rm -rf vendor lib/com lib/org
+export LOGSTASH_PATH=/opt/homebrew/Cellar/logstash/8.17.0/libexec
+export LOGSTASH_SOURCE=1
+bundle install 
+bundle exec rake vendor 
+bundle exec rake install_jars
+gem build logstash-output-jdbc.gemspec
+```
