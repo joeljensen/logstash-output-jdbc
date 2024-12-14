@@ -106,7 +106,7 @@ mkdir ~/src
 cd ~/src
 git clone https://github.com/joeljensen/logstash-output-jdbc.git
 cd logstash-output-jdbc
-git checkout feature/log4j-CVE-2021-44228
+git checkout CVE-2021-44228
 
 make your changes.
 
